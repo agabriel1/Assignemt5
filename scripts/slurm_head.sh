@@ -40,7 +40,7 @@ sudo systemctl start munge
 #install slurm dependencies
 sudo yum install openssl openssl-devel pam-devel numactl numactl-devel hwloc hwloc-devel lua lua-devel readline-devel rrdtool-devel ncurses-devel man2html libibmad libibumad -y
 
-#install slurm in the shared folder
+#get the slurm tarball 
 cd /software
 sudo wget http://www.schedmd.com/download/latest/slurm-18.08.3.tar.bz2
 sudo yum install rpm-build
@@ -49,11 +49,13 @@ sudo yum install 'perl(ExtUtils::MakeMaker)' -y
 sudo rpmbuild -ta slurm-18.08.3.tar.bz2
 #cd /root/rpmbuild/RPMS/x86_64
 
+#transfer slurm RPMS to a shared folder
 sudo mkdir /software/slurm-rpms
 sudo cp /root/rpmbuild/RPMS/x86_64/* /software/slurm-rpms
 
 sudo touch /scratch/rpm.fin
 
+#install slurm
 sudo yum --nogpgcheck localinstall /software/slurm-rpms/* -y
 
 #head configuration
@@ -97,8 +99,3 @@ sudo systemctl restart slurmctld
 #remove setup files
 cd /scratch
 sudo rm d.fin dbd.fin dbd.sql innodb.cnf metakey.fin munge.key rpm.fin setup.sql slurm.conf slurmdbd.conf
-
-
-
-
-
